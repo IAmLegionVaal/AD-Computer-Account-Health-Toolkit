@@ -1,24 +1,34 @@
 # AD Computer Account Health Toolkit
 
-A read-only PowerShell toolkit for Active Directory computer account review.
+PowerShell tools for Active Directory computer-account health reporting and guarded account corrections.
 
-## Features
-
-- Computer account status and operating system inventory
-- Last-logon and password-last-set context
-- Stale account identification by age threshold
-- CSV, JSON, and HTML reports
-
-## Run
+## Audit
 
 ```powershell
 powershell.exe -ExecutionPolicy Bypass -File .\AD_Computer_Account_Health_Toolkit.ps1
 ```
 
+## Repair
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File .\AD_Computer_Account_Repair_Toolkit.ps1 -ComputerName PC01 -EnableAccount -DryRun
+```
+
+Examples:
+
+```powershell
+.\AD_Computer_Account_Repair_Toolkit.ps1 -ComputerName PC01 -EnableAccount
+.\AD_Computer_Account_Repair_Toolkit.ps1 -ComputerName OLD-PC -DisableAccount
+.\AD_Computer_Account_Repair_Toolkit.ps1 -ComputerName PC01 -Description 'Finance workstation'
+.\AD_Computer_Account_Repair_Toolkit.ps1 -ComputerName OLD-PC -MoveToOU 'OU=Quarantine,DC=contoso,DC=com'
+```
+
+The repair workflow validates the target and destination OU, captures the object before and after changes, and supports `-DryRun`, confirmation, logging and clear exit codes. Domain controller accounts cannot be disabled or moved by this script.
+
 ## Requirements
 
-RSAT Active Directory module and appropriate read permissions.
+RSAT Active Directory module and appropriate delegated permissions.
 
-## Safety
+## Author
 
-Read-only reporting only. No directory objects are changed.
+Dewald Pretorius — L2 IT Support Engineer
